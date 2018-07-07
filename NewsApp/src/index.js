@@ -1,0 +1,39 @@
+import React, {Component} from 'react';
+import ReactDOM from 'react-dom';
+import JSON from './db.json'
+
+//COMPONENTS
+import Header from './views/header'
+import NewsList from './views/news_list'
+
+class App extends Component {
+    state = {
+        news: JSON,
+        filtered: []
+    };
+
+    getKeyword = (event) => {
+        let filtered = this.state.news.filter((item) => {
+            return item.title.indexOf(event.target.value) > -1
+        });
+        this.setState({
+            filtered: filtered
+        })
+    };
+
+
+    render() {
+        return (
+            <div>
+                <Header keywords={this.getKeyword}/>
+                <NewsList news={this.state.filtered.length === 0 ? this.state.news : this.state.filtered}>
+                    <h3>
+                        The news is:
+                    </h3>
+                </NewsList>
+            </div>
+        )
+    }
+}
+
+ReactDOM.render(<App/>, document.querySelector("#root")); //react element and location where to put the element
